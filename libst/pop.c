@@ -1,9 +1,9 @@
 # include "c_stack.h"
 
-int pop(c_stack **stack)
+int pop(t_stack **stack)
 {
   int aux;
-  c_stack *tmp;
+  t_stack *tmp;
 
   aux = 0;
   if (*stack)

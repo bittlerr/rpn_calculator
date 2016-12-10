@@ -1,30 +1,43 @@
-EXF = rpn_calculator
-
-IPTH = includes
-
-SPTH = sources
-
-FILES = *.c
-
-OBJS = *.o
-
-LBA = includes/c_stack.a
-
 CC = gcc
+
+SRC = main.c rpn_calc.c
 
 FLAGS = -Wall -Wextra -Werror
 
-all:
-	$(CC) -c $(FLAGS) $(SPTH)/$(FILES) -I $(IPTH)
-	ar rvs $(LBA) *.o
-	$(CC) -o $(EXF) main.c $(LBA) -I $(IPTH)
+NAME = rpn_calculator
+
+LI = -I./libst
+LL = -L./libst -lst
+LST = ./libst/libst.a
+
+SD = ./src/
+ID = ./includes/
+OD = ./obj/
+
+OBJ = $(addprefix $(OD), $(SRC:.c=.o))
+
+all: $(NAME)
+
+obj: 
+		mkdir -p $(OD)
+
+$(OD)%.o:$(SD)%.c
+		$(CC) $(FLAGS) -o $@ -c $< $(LI) -I $(ID)
+
+libst: $(LST)
+
+$(LST):
+		make -C ./libst
+
+$(NAME): obj libst $(OBJ)
+		$(CC) -o $(NAME) $(OBJ) $(LL)
 
 clean:
-	@rm $(OBJS)
+		rm -rf $(OD)
+			make fclean -C ./libst
 
 fclean: clean
-	@rm $(EXF)
+		rm -rf $(NAME)
+			make fclean -C ./libst
 
-re:
-	fclean
-	all
+re: fclean all

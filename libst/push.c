@@ -1,10 +1,10 @@
 # include "c_stack.h"
 
-c_stack *push(c_stack *stack, int n)
+t_stack *push(t_stack *stack, int n)
 {
-  c_stack *el;
+  t_stack *el;
 
-  el = new_element(n);
+  el = nou(n);
   if (!stack)
   {
     stack = el;
